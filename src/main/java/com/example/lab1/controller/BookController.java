@@ -31,4 +31,12 @@ public class BookController {
         model.addAttribute("message", message);
         return modelAndView;
     }
+
+    @RequestMapping(value = { "/personalList" }, method = RequestMethod.GET)
+    public ModelAndView personalList(Model model) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("book_list");
+        model.addAttribute("books", books);
+        return modelAndView;
+    }
 }
