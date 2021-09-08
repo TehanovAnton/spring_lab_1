@@ -2,17 +2,18 @@ package com.example.lab1.controller;
 
 import com.example.lab1.forms.BookForm;
 import com.example.lab1.model.Book;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @Controller
+@RequestMapping
 public class BookController {
     private static List<Book> books = new ArrayList<Book>();
     static {
@@ -26,31 +27,35 @@ public class BookController {
     @Value("${error.message}")
     private String errorMessage;
 
-    @RequestMapping(value = {"/", "/index"}, method = RequestMethod.GET)
+    @GetMapping(value = {"/", "/index"})
     public ModelAndView index(Model model) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("index_book");
         model.addAttribute("message", message);
+        log.info("/index was called");
         return modelAndView;
     }
 
-    @RequestMapping(value = { "/personal_list" }, method = RequestMethod.GET)
+    @GetMapping(value = { "/book_list_page" })
     public ModelAndView personalList(Model model) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("book_list");
         model.addAttribute("books", books);
+        log.info("/book_list_page was called");
         return modelAndView;
     }
 
-    @RequestMapping(value = { "/add_book_page" }, method = RequestMethod.GET)
+
+    @GetMapping(value = { "/add_book_page" })
     public ModelAndView showAddBookPage(Model model) {
         ModelAndView modelAndView = new ModelAndView("add_book");
         BookForm bookForm = new BookForm();
         model.addAttribute("bookform", bookForm);
+        log.info("/add_book_page was called");
         return modelAndView;
     }
 
-    @RequestMapping(value = { "/add_book_page" }, method = RequestMethod.POST)
+    @PostMapping(value = { "/add_book_page" })
     public ModelAndView savePerson(Model model, @ModelAttribute("bookform") BookForm bookForm) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("book_list");
