@@ -56,7 +56,7 @@ public class BookController {
     }
 
     @PostMapping(value = { "/add_book_page" })
-    public ModelAndView savePerson(Model model, @ModelAttribute("bookform") BookForm bookForm) {
+    public ModelAndView saveBook(Model model, @ModelAttribute("bookform") BookForm bookForm) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("book_list");
 
@@ -72,6 +72,16 @@ public class BookController {
 
         model.addAttribute("errorMessage", errorMessage);
         modelAndView.setViewName("add_book");
+        return modelAndView;
+    }
+
+    @PostMapping(value = { "/delete_book" })
+    public ModelAndView deleteBookAction(Model model, @RequestParam String book_title) {
+        books.removeIf(book -> book_title.equals(book.getTitle()));
+
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("book_list");
+        model.addAttribute("books", books);
         return modelAndView;
     }
 }

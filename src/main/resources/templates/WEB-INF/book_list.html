@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:form="http://www.w3.org/1999/xhtml">
 
   <head>
     <meta charset="UTF-8" />
@@ -23,6 +23,12 @@
         <tr th:each = "book : ${books}">
           <td th:utext="${book.title}">...</td>
           <td th:utext="${book.author}">...</td>
+          <td>
+            <form th:action="@{/delete_book}"  method="post">
+              <input type="text" th:value="${book.title}" name="book_title"/>
+              <input type="submit" />
+            </form>
+          </td>
         </tr>
 
       </table>
