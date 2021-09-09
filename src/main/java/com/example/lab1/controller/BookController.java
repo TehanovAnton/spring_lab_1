@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Controller
@@ -72,6 +73,28 @@ public class BookController {
 
         model.addAttribute("errorMessage", errorMessage);
         modelAndView.setViewName("add_book");
+        return modelAndView;
+    }
+
+    @GetMapping(value = { "/update_book_page" })
+    public ModelAndView show_update_book(Model model, @RequestParam String book_title) {
+        Book book = books.stream().filter(b -> b.getTitle().equals(book_title)).findFirst().get();
+        ModelAndView modelAndView = new ModelAndView("update_book");
+        model.addAttribute("book", book);
+        model.addAttribute("bookForm", new BookForm());
+        return modelAndView;
+    }
+
+    @PostMapping(value = { "/update_book_page" })
+    public ModelAndView update_book(Model model, @ModelAttribute("bookForm")BookForm bookForm, @RequestParam String by_title) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("book_list");
+
+        Book book = books.stream().filter(b -> b.getTitle().equals(by_title)).findFirst().get();
+        book.setTitle(bookForm.getTitle());
+        book.setAuthor(bookForm.getAuthor());
+        model.addAttribute("books",books);
+
         return modelAndView;
     }
 

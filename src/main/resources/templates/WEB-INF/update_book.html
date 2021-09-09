@@ -1,0 +1,34 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <title>Add Person</title>
+  <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+</head>
+
+<body>
+<div class="container">
+  <h1>update book:</h1>
+
+  <form th:action="@{/update_book_page}" th:object="${bookForm}" method="POST">
+
+    <input type="hidden" th:value="${book.title}" id="by_title" name="by_title" >
+
+    <p>Title:
+      <input type="text" id="title" name="title" th:value="${book.title}" />
+    </p>
+
+    <p> Author:
+      <input type="text" id="author" name="author" th:value="${book.author}" />
+    </p>
+
+    <input class ="button-main-page" type="submit" value="update" />
+  </form>
+
+</div>
+
+<div th:if="${errorMessage}" th:utext="${errorMessage}"
+     style="color:red;font-style:italic;">
+</div>
+</body>
+</html>
